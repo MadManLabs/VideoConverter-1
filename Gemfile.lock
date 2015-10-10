@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    streamio-ffmpeg (1.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  streamio-ffmpeg
+
+BUNDLED WITH
+   1.10.6
