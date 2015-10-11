@@ -33,10 +33,10 @@ Shoes.app( :width => 500, :height => 500)  do
 		end
 
 	para 'Convert From: '
-	@from_format = list_box items: ['.mp4', '.mkv', '.avi', '.mov', '.mpeg', '.ogg', '.flv', '.webm']
+	@from_format = list_box items: ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm']
 
 	para 'Convert To: '
-	@to_format = list_box items: ['.mp4', '.mkv', '.avi', '.mov', '.mpeg', '.ogg', '.flv', '.webm']
+	@to_format = list_box items: ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm']
 
 	@convert = button 'Convert Video'
 	@convert.click {
