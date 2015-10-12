@@ -3,8 +3,8 @@ require "./lib/convert.rb"
 
 Shoes.app( :width => 500, :height => 500)  do
 	@filename = ''
-	stack margin_left: 150, margin_top: 10 do
-		flow margin_top: 140 do
+	stack margin_left: 125, margin_top: 10 do
+		flow margin_top: 75 do
 			para 'Please select a file or a folder'
 		end
 
@@ -38,9 +38,13 @@ Shoes.app( :width => 500, :height => 500)  do
 	para 'Convert To: '
 	@to_format = list_box items: ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm']
 
+	flow {
+		@subdir = check; para "Convert Subdirectories"
+	}
+
 	@convert = button 'Convert Video'
 	@convert.click {
-		@movie = convert(@filepath, @from_format.text, @to_format.text)
+		@movie = convert(@filepath, @from_format.text, @to_format.text, @subdir.checked?)
 
 		if(@movie != nil)
 			alert('Conversion Sucessful.')
