@@ -1,19 +1,25 @@
 require 'streamio-ffmpeg'
 
-def convert(filepath, from, to, subdir)
+def convert(filepath, from, to, subdir, del)
 	movie = nil
 	if File.file?(filepath)
-		movie = convert_file(filepath, to) if File.extname(filepath) == from
+		movie = convert_file(filepath, to, del) if File.extname(filepath) == from
 	else
-		movie = convert_folder(filepath, to, from, subdir)
+		movie = convert_folder(filepath, to, from, subdir, del)
 	end
 	return movie
 end
 
-def convert_file(file, to)
+def convert_file(file, to, del)
 	begin
 		movie = FFMPEG::Movie.new(file)
 		movie.transcode(File.basename(file,File.extname(file)) + to) { |progress| puts progress }
+
+		if File.exist?(file)
+			File.delete(file) if del && movie != nil
+		end
+
+		return movie
 	rescue
 		if File.exist?(File.basename(file,File.extname(file)) + to)
 			File.delete(File.basename(file,File.extname(file)) + to)
@@ -22,15 +28,15 @@ def convert_file(file, to)
 	end
 end
 
-def convert_folder(folder, to, from, subdir)
+def convert_folder(folder, to, from, subdir, del)
 	movie = nil
 	if subdir
 		Dir.glob(folder+'/**/*'+from) do |file|
-  			movie = convert_file(file, to) if File.extname(file) == from
+  			movie = convert_file(file, to, del) if File.extname(file) == from
 		end
 	else
 		Dir.glob(folder+'/*'+from) do |file|
-			movie = convert_file(file, to) if File.extname(file) == from
+			movie = convert_file(file, to, del) if File.extname(file) == from
 		end
 	end
 	return movie

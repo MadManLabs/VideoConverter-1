@@ -41,10 +41,13 @@ Shoes.app( :width => 500, :height => 500)  do
 	flow {
 		@subdir = check; para "Convert Subdirectories"
 	}
+	flow {
+		@del = check; para "Delete files after conversion"
+	}
 
 	@convert = button 'Convert Video'
 	@convert.click {
-		@movie = convert(@filepath, @from_format.text, @to_format.text, @subdir.checked?)
+		@movie = convert(@filepath, @from_format.text, @to_format.text, @subdir.checked?, @del.checked?)
 
 		if(@movie != nil)
 			alert('Conversion Sucessful.')
