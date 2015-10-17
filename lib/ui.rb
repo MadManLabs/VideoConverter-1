@@ -1,7 +1,7 @@
 require  'green_shoes'
 require "./lib/convert.rb"
 
-Shoes.app( :width => 500, :height => 500)  do
+Shoes.app( :width => 480, :height => 620)  do
 	@filename = ''
 	stack margin_left: 125, margin_top: 10 do
 		flow margin_top: 75 do
@@ -33,10 +33,10 @@ Shoes.app( :width => 500, :height => 500)  do
 		end
 
 	para 'Convert From: '
-	@from_format = list_box items: ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm']
+	@from_format = list_box items: ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm, .mov, .flv']
 
 	para 'Convert To: '
-	@to_format = list_box items: ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm']
+	@to_format = list_box items: ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm, .mov, .flv']
 
 	flow {
 		@subdir = check; para "Convert Subdirectories"

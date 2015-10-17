@@ -4,7 +4,7 @@ require "test/unit"
 class ConvertTest < Test::Unit::TestCase
 
   def test_exception
-    movie  = convert("tests/fixtures/SampleVideo.avi",".avi", ".mp4", false, false)
+    movie  = convert("tests/fixtures/SampleVideo.avi",".avi", ".bad", false, false)
     assert_equal(nil, movie)
   end
 
@@ -33,6 +33,16 @@ class ConvertTest < Test::Unit::TestCase
     assert_not_equal(nil, movie)
   end
 
+  def test_mov_conversion
+    movie = convert("tests/fixtures/SampleVideo.mp4",".mp4", ".mov", false, false)
+    assert_not_equal(nil, movie)
+  end
+
+  def test_flv_conversion
+    movie = convert("tests/fixtures/SampleVideo.mp4",".mp4", ".flv", false, false)
+    assert_not_equal(nil, movie)
+  end
+
   def test_convert_folder
     movie = convert("tests/fixtures", ".mp4", ".avi", false, false)
     assert_not_equal(nil, movie)
@@ -52,6 +62,8 @@ class ConvertTest < Test::Unit::TestCase
 
   def teardown
       File.delete("SampleVideo.mkv") if File.exist?("SampleVideo.mkv")
+      File.delete("SampleVideo.mov") if File.exist?("SampleVideo.mov")
+      File.delete("SampleVideo.flv") if File.exist?("SampleVideo.flv")
       File.delete("SampleVideo.avi") if File.exist?("SampleVideo.avi")
       File.delete("SampleVideo.mpeg") if File.exist?("SampleVideo.mpeg")
       File.delete("SampleVideo.ogg") if File.exist?("SampleVideo.ogg")

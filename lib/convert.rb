@@ -13,7 +13,11 @@ end
 def convert_file(file, to, del)
 	begin
 		movie = FFMPEG::Movie.new(file)
-		movie.transcode(File.basename(file,File.extname(file)) + to) { |progress| puts progress }
+		if(to == '.mp4' || to == '.flv' || to == '.mov')
+			movie.transcode(File.basename(file,File.extname(file)) + to, "-acodec aac -strict -2") { |progress| puts progress }
+		else
+			movie.transcode(File.basename(file,File.extname(file)) + to) { |progress| puts progress }
+		end
 
 		if File.exist?(file)
 			File.delete(file) if del && movie != nil
