@@ -1,6 +1,8 @@
 require  'green_shoes'
 require "./lib/convert.rb"
 
+video_types = ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm', '.mov', '.flv']
+
 Shoes.app( :width => 480, :height => 620)  do
 	@filename = ''
 	stack margin_left: 125, margin_top: 10 do
@@ -33,10 +35,12 @@ Shoes.app( :width => 480, :height => 620)  do
 		end
 
 	para 'Convert From: '
-	@from_format = list_box items: ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm, .mov, .flv']
+	@from_format = list_box items: video_types,
+	choose: '.mp4'
 
 	para 'Convert To: '
-	@to_format = list_box items: ['.mp4', '.mkv', '.avi', '.mpeg', '.ogg', '.webm, .mov, .flv']
+	@to_format = list_box items: video_types,
+	choose: '.mp4'
 
 	flow {
 		@subdir = check; para "Convert Subdirectories"
@@ -47,12 +51,18 @@ Shoes.app( :width => 480, :height => 620)  do
 
 	@convert = button 'Convert Video'
 	@convert.click {
-		@movie = convert(@filepath, @from_format.text, @to_format.text, @subdir.checked?, @del.checked?)
-
-		if(@movie != nil)
-			alert('Conversion Sucessful.')
+		if(!@filepath)
+			alert('Please select a file or folder to convert')
+		elsif(!video_types.include?(File.extname(@filepath)))
+			alert('Please select a valid video file')
 		else
-			alert('Conversion Unsucessful. Please try another format or file.')
+			@movie = convert(@filepath, @from_format.text, @to_format.text, @subdir.checked?, @del.checked?)
+
+			if(@movie != nil)
+				alert('Conversion Sucessful.')
+			else
+				alert('Conversion Unsucessful. Please try another format or file.')
+			end
 		end
 	}
 	@exit = button 'Exit'
